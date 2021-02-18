@@ -7,6 +7,9 @@
 * Parse response to model struct
 * Navigation bar button
 
-
+<p align="center">
 <img src="https://github.com/sebastianoberg/iOS_BitCoinWatcher/blob/main/Screenshots/BitCoinPrice.png" width="300">
+</p>
+<p align="center">
 <img src="https://github.com/sebastianoberg/iOS_BitCoinWatcher/blob/main/Screenshots/No%20internet%20connection.png" width="300">
+</p>
