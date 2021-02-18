@@ -1,5 +1,7 @@
 ## iOS_BitCoinWatcher
-#iOS app written in Swift to get latest BTC price in USD. UI is not the most complex, but the point of this project is to make API calls asynchronously. We don't want to lock the UI, do we?
+#iOS app written in Swift to get latest BTC price in USD. UI is not the most complex, but the point of this project is to make API calls asynchronously. We don't want to lock the UI, do we?...
+
+...No, we don't want to that and we probably never will because our response is so small, but still. 
 
 **Key features and swift basics:**
 * Multi-thread - using async()
