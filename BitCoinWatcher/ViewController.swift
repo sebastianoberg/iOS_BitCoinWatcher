@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     
     let gradientLayer = CAGradientLayer()
     var bitCoinPriceLabel: UILabel!
-    var bitCoinPrice: String!
+    var bitCoinPrice = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +19,8 @@ class ViewController: UIViewController {
         title = "BTC price in USD"
         navigationController?.navigationBar.barTintColor = UIColor.gray
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(makeRequest))
+        
+        
                 
         makeRequest()
     }
@@ -43,6 +45,18 @@ class ViewController: UIViewController {
             bitCoinPriceLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             bitCoinPriceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
+        
+        let defaults = UserDefaults.standard
+        
+        if let restoreLastBtcPrice = defaults.object(forKey: "lastBtcPrice") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                bitCoinPrice = try jsonDecoder.decode(String.self, from: restoreLastBtcPrice)
+            } catch {
+                print("Could not load last btc price.")
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,6 +72,7 @@ class ViewController: UIViewController {
             if let url = URL(string: coinBaseUrl) {
                 if let data = try? Data(contentsOf: url) {
                     self.parse(json: data)
+                    self.saveBtcPrice()
                     return
                 }
             }
@@ -80,6 +95,16 @@ class ViewController: UIViewController {
             let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(ac, animated: true)
+        }
+    }
+    
+    func saveBtcPrice() {
+        let jsonEncoder = JSONEncoder()
+        if let savedData = try? jsonEncoder.encode(bitCoinPrice) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "lastBtcPrice")
+        } else {
+            print("Failed to save btc price.")
         }
     }
 }
